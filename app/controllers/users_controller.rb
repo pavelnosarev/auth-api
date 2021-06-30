@@ -1,13 +1,15 @@
 class UsersController < ApplicationController
   def create
-    signup = Signup.new(
+    user = User.new(
       name: params[:name],
-      email: params[:email]
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation],
     )
-    if signup.save
-      render json: signup.as_json
+    if user.save
+      render json: { message: "User created successfully" }, status: :created
     else
-      render json: { errors: signup.errors.full_messages },
-             status: 422
+      render json: { errors: user.errors.full_messages }, status: :bad_request
     end
+  end
 end
